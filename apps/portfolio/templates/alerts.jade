@@ -34,6 +34,7 @@ block tabs
   +tab("/portfolio/" + account.id, "portfolio")
   if account.id == user.id
     +tab("/portfolio/" + account.id + "/alerts", "alerts")
+    +tab("/portfolio/" + account.id + "/transfers", "transfers")
 
 block body
   include account-top

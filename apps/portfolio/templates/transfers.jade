@@ -1,0 +1,54 @@
+extends ../../../components/layout/templates/index
+
+mixin rank_transfer(rank, title)
+  if rank < 50
+    .single-transfer
+      .transfer-title Congratulations!
+      .transfer-body You are now the #{numeral(rank).format('0o')} ranked #{title} on the market
+      .transfer-link: a(href="/leaderboard/#{title}s") See Leaderboard
+
+mixin tip_transfer(reward)
+  .single-transfer
+    - s = reward.citations > 1 ? 's' : ''
+    - block = blocks.get(reward.block_id)
+    .transfer-title +#{reward.rewards}Å
+    .transfer-body You received a hot tip reward for #{reward.citations} new trade#{s} on
+    .transfer-news-headline
+      .transfer-news-headline__callsigns
+        for contract in reward.contracts
+          a.call-sign.call-sign--sm(
+            data-contract_id=contract
+            href="/investing/futures/" + contract
+          )
+            .call-sign__icon
+              include ../../../public/images/callsign.svg
+            .call-sign__id
+              .v-outer
+                .v-inner=contract
+      | #{block.get('title')}
+
+block vars
+  - bodyClass = 'is-dark'
+
+block tabs
+  +tab("/portfolio/" + account.id, "portfolio")
+  if account.id == user.id
+    +tab("/portfolio/" + account.id + "/alerts", "alerts")
+    +tab("/portfolio/" + account.id + "/transfers", "transfers")
+
+block body
+  include account-top
+  include ../../../components/tabs/templates/index
+
+  .portfolio--transfers
+    for transfer, index in transfers.get('notifications')
+      .transfer-block
+        .transfer-date= transfer.bardate
+        .transfer-list
+          if index == 0
+            +rank_transfer(transfers.get('activist_rank'), 'activist')
+            +rank_transfer(transfers.get('forecaster_rank'), 'forecaster')
+            +rank_transfer(transfers.get('influencer_rank'), 'influencer')
+
+          for reward in transfer.all_rewards
+            +tip_transfer(reward)

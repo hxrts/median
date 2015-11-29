@@ -1,0 +1,57 @@
+.tab--transfers:after
+  content ''
+  display block
+  width 10px
+  height 10px
+  background-color light-text-color
+  border-radius 10px
+  position absolute
+  right calc(50% \- 5px)
+  top -20px
+
+.transfers-block
+  display flex
+  width 65%
+  border-bottom 1px solid light-border-color
+  margin 0 auto
+  padding (unit * 2) 0
+
+  +below(768px)
+    display block
+    font-size 1.2rem
+    width 90%
+
+.single-transfer
+  border-bottom 1px solid light-border-color
+  margin-bottom unit
+  padding-bottom unit
+
+.transfer-block .single-transfer:last-child
+  border-bottom 0
+  margin-bottom 0
+
+.transfer-date
+  flex 1
+  font-size 2rem
+  margin-bottom (unit * 2)
+
+.transfer-list
+  flex 2
+
+.transfer-link
+  margin unit 0 0
+  opacity 0.5
+
+.transfer-title
+  font-family Work Sans SemiBold
+
+.transfer-news-headline
+  background-color rgba(255, 255, 255, 0.1)
+  font-family Atlas Typewriter Bold
+  padding unit
+  margin-top unit
+
+  .call-sign
+    margin-bottom unit
+    svg path
+      fill #fff !important

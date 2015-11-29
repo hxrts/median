@@ -6,6 +6,7 @@ numeral = require 'numeral'
 sd = require("sharify").data
 Account = require '../../models/account.coffee'
 Alerts = require '../../models/alerts.coffee'
+Transfers = require '../../models/transfers.coffee'
 Blocks = require '../../collections/blocks.coffee'
 Positions = require '../../collections/positions.coffee'
 Contracts = require '../../collections/contracts.coffee'
@@ -54,6 +55,31 @@ Contracts = require '../../collections/contracts.coffee'
         res.render 'alerts',
           account: account
           alerts: alerts
+          numeral: numeral
+          blocks: blocks
+  .catch next
+  .done()
+
+@transfers = (req, res, next) ->
+  id = req.params.id or req.user?.id
+
+  account = new Account id: id
+  transfers = new Transfers user_id: id
+  blocks = new Blocks [], id: null
+  blocks.url = "#{sd.ARENA_API_URL}/blocks/multi"
+
+  Q.all [
+    account.fetch()
+    transfers.fetch()
+  ]
+  .then ->
+    blocks.fetch
+      data: Qs.stringify { block_ids: transfers.allBlockIds() }, arrayFormat: 'brackets'
+      cache: true
+      success: ->
+        res.render 'transfers',
+          account: account
+          transfers: transfers
           numeral: numeral
           blocks: blocks
   .catch next
