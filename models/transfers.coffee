@@ -3,7 +3,7 @@ sd = require("sharify").data
 _ = require 'underscore'
 
 module.exports = class Transfers extends Backbone.Model
-  url: -> "#{sd.KERNAL_API_URL}/accounts/#{@user_id}/notifications"
+  url: -> "#{sd.KERNAL_API_URL}/accounts/#{@user_id}/transfers"
 
   initialize: ({ @user_id }) ->
     # just destructured assigning
@@ -12,7 +12,7 @@ module.exports = class Transfers extends Backbone.Model
     data[0]
 
   allBlockIds: ->
-    notifications = _.map @get('notifications'), (notification) ->
-      _.map notification.all_rewards, (reward) -> reward.block_id
-    _.uniq _.flatten notifications
+    transfers = _.map @get('transfers'), (transfers) ->
+      _.map transfers.all_rewards, (reward) -> reward.block_id
+    _.uniq _.flatten transfers
 
