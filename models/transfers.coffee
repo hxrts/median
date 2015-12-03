@@ -13,6 +13,6 @@ module.exports = class Transfers extends Backbone.Model
 
   allBlockIds: ->
     transfers = _.map @get('transfers'), (transfers) ->
-      _.map transfers.all_rewards, (reward) -> reward.block_id
+      _.map transfers.all_gift, (gift) -> gift.block_id
     _.uniq _.flatten transfers
 

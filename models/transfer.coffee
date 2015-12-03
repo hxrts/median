@@ -8,10 +8,10 @@ module.exports = class Transfer extends Backbone.Model
     "#{sd.KERNAL_API_URL}/transfers/#{@id}"
 
   href: ->
-    "#{sd.APP_URL}/investing/futures/#{@idOrTransfer()}"
+    "#{sd.APP_URL}/transfers/#{@idOrTransfer()}"
 
   idOrTransfer: ->
     @get('transfer') or @id
 
-  formattedPrice: (type) ->
-    "#{numeral(@get(type)).format('0,0')}Å"
+  counterparty: ->
+    @get.counterparty
